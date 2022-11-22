@@ -21,5 +21,5 @@ export const waitUserInput = async () => {
         .split(' ')
         .map(component => component.toLowerCase());
 
-    return { command, restArgs: [...rest] };
-}  
+    return [command, ...rest];
+}

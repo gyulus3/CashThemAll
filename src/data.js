@@ -1,104 +1,89 @@
 import fs from 'fs/promises';
-
 import util from 'util';
 
-const DEFAULT_INPUT_FILE = 'input.cash';
+const DEFAULT_INPUT_FILE = 'input.txt';
 const dataFileName = process.argv[2] || DEFAULT_INPUT_FILE;
 
-export const data = {
-    loggedInUser: null,
-    users: [],
+let loggedInUser = null;
+const users = [];
+
+const processUserData = (element) => {
+    const [email, password, username] = element.split(' ');
+    users.push({ email, password, username, accounts: [] });
 }
 
-const findUserByAccountNumber = (accountNumber) => {
-    return data.users.find(({ accounts }) => accounts.some(({ number }) => number === accountNumber));
-}
+const processAccountData = (accountDataArray) => {
+    const [accountDetail, proxies, ...histories] = accountDataArray;
+    const [accountNumber, amount, email, type] = accountDetail.split(' ');
 
-const findAccountByNumber = (user, accountNumber) => {
-    return user.accounts.find(({ number }) => number === accountNumber);
-}
-
-export const loadData = async () => {
-    let firstSection = true;
-    let iteration = 1;
-    let actAccountNumber = '';
-
-    const processUserData = (element) => {
-        const [email, password, username] = element.split(' ');
-        data.users.push({ email, password, username, accounts: [] });
+    const user = users.find(u => u.email === email);
+    if (user) {
+        let account = { accountNumber, amount: parseInt(amount), type, histories: [], proxies: [] };
+        if (proxies) {
+            account = { ...account, proxies: proxies.split(' ') };
+        }
+        histories.forEach(history => {
+            const [accountOrigin, amountBefore, amountTransfered, amountAfter, accountDestionation] = history.split(' ');
+            account.histories.push({
+                accountOrigin, 
+                amountBefore: parseInt(amountBefore), 
+                amountTransfered: parseInt(amountTransfered),
+                amountAfter: parseInt(amountAfter), 
+                accountDestionation
+            });
+        });
+        user.accounts.push(account);
     }
-    
-    /*const processAccountDetails = (element) => {
-        let user;
-        switch(iteration) {
-            case 1: 
-                const [number, amount, email, type] = element.split(' ');
-                actAccountNumber = number;
-                user = data.users.find(u => u.email === email);
-                if (user) {
-                    user.accounts.push({ number, amount, type, proxies: [], history: [] });
-                }
-            break;
-            case 2:
-                const proxies = element.split(' ');
-                user = findUserByAccountNumber(actAccountNumber);
-                if (user) {
-                    const account = findAccountByNumber(user, actAccountNumber);
-                    account.proxies = proxies;
-                }
-            break;
-            default:
-                const [_, beforeAmount, process, afterAmount, destinationAccount] = element.split(' ');
-                user = findUserByAccountNumber(actAccountNumber);
-                if (user) {
-                    const account = findAccountByNumber(user, actAccountNumber);
-                    account.history.push({ beforeAmount, process, afterAmount, destinationAccount });
-                }
-                break;
-        }
-    }*/
+};
 
-    const rawInputData = await fs.readFile(`./${ dataFileName }`, 'binary');
-    const inputData = rawInputData.split('\r\n');
+const ifStringLengthGreaterThanZero = (stringElement) => stringElement.length > 0;
 
-    inputData.forEach(element => {
-        if (firstSection) {
-            if (element === '#HISTORY') {
-                firstSection = false;
-            } else {
-                processUserData(element);
-            }
-        } else {
-            if (element === '#HISTORY') {
-                iteration = 1;
-            } else {
-                //rocessAccountDetails(element);
-                iteration++;
-            }
-        }
-    });
-
-    console.log(util.inspect(data.users, false, null, true))
-}
-
-export const saveData = async () => {
+const saveData = async () => {
     let outputData = '';
-    data.users.forEach(u => {
-        outputData += `${ u.email } ${ u.password } ${ u.username }\n`
+    users.forEach(({ email, password, username }) => {
+        outputData += `${ email } ${ password } ${ username }\n`;
     });
-    data.users.forEach(u => {
-        u.accounts.forEach(a => {
+    users.forEach(({ accounts, email }) => {
+        accounts.forEach(({ accountNumber, amount, type, histories, proxies }) => {
             outputData += '#HISTORY\n';
-            outputData += `${ a.number } ${ a.amount } ${ u.email } ${ a.type }\n`;
-            a.proxies.forEach(p => {
-                outputData += `${ p } `;
+            outputData += `${ accountNumber } ${ amount } ${ email } ${ type }\n`;
+            proxies.forEach((proxy, index) => {
+                outputData += index > 0? ` ${ proxy }` : `${ proxy }`;
             });
             outputData += '\n';
-            a.history.forEach(h => {
-                outputData += `${ a.number } ${ h.beforeAmount } ${ h.process } ${ h.afterAmount }\n`;
+            histories.forEach(({ accountOrigin, amountBefore, amountTransfered, amountAfter, accountDestionation }) => {
+                outputData += `${ accountOrigin } ${ amountBefore } ${ amountTransfered } ${ amountAfter }`;
+                if (accountDestionation) {
+                    outputData += ` ${ accountDestionation }`;
+                }
+                outputData += '\n';
             });
-        })
-    })
+        });
+    });
     await fs.writeFile(`./${ dataFileName }`, outputData);
+};
 
+const loadData = async () => {    
+    const rawInputData = await fs.readFile(`./${ dataFileName }`, 'binary');
+    const inputData = rawInputData.split('\n').filter(ifStringLengthGreaterThanZero);
+
+    let proccessedData = [];
+    while(inputData.indexOf('#HISTORY') !== -1) {
+        proccessedData.push(inputData.splice(0, inputData.indexOf('#HISTORY') + 1));
+    }
+    proccessedData.push(inputData);
+    const [userData, ...accountData] = proccessedData.map(array => { 
+        return array.indexOf('#HISTORY') !== -1 ? array.slice(0, -1) : array; 
+    });
+
+    userData.forEach(processUserData);
+    accountData.forEach(processAccountData);
+
+    console.log(util.inspect(users, false, null, true))
 }
+
+const loginUser = (userToLogin) => {
+    loggedInUser = userToLogin;
+}
+
+export { users, loggedInUser, loginUser, saveData, loadData };

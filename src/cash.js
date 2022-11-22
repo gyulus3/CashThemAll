@@ -7,11 +7,11 @@ console.log(strings.welcome);
 
 await loadData();
 
-let { command, restArgs } = await waitUserInput();
+let [command, ...restArgs] = await waitUserInput();
 
 while (!isCommandExit(command)) {
   const executeCommand = getCommand(command);
   executeCommand(restArgs);
 
-  ({ command, restArgs } = await waitUserInput());
-} 
+  ([command, ...restArgs] = await waitUserInput());
+}

@@ -12,7 +12,7 @@ import transfer from './transfer.js';
 import history from './history.js';
 import increase from './increase.js';
 
-import { data } from '../data.js';
+import * as data from '../data.js';
 
 const DEFINED_COMMANDS = {
     register, profile, login, create, proxy, balance, add, withdraw, transfer, history, increase
