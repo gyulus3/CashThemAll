@@ -25,7 +25,7 @@ const printHelp = () => {
     console.log('\n');
 }
 
-const isCommandInvalid = (command) => {
+export const isCommandInvalid = (command) => {
      return !command || !DEFINED_COMMANDS[command];
 }
 
