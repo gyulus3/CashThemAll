@@ -5,7 +5,7 @@ export default {
     description: 'You can check your account transaction history',
     execute: (data) => ([accountNumber]) => {
         if (!data.isLoggedIn()) {
-            throw new Error('User not logged in!');
+            throw new Error('User is not logged in!');
         }
         if (!accountNumber) {
             throw new Error('Account number is not provided!');
@@ -16,7 +16,7 @@ export default {
 
         const account = data.loggedInUser.accounts.find(a => a.accountNumber === accountNumber);
         if (!account) {
-            throw new Error('Account does not exist!');
+            throw new Error('Account is not found!');
         }
 
         console.log(`${ accountNumber } history:`)
