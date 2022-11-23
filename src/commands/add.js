@@ -4,10 +4,6 @@ export default {
     info: 'add <account> <amount>',
     description: 'You can add money to your account',
     execute: (data) => ([accountNumber, amount]) => {
-        if(!accountNumber || !amount || isNaN(amount)) {
-            console.log('Account number or amount are not valid!');
-            return;
-        }
         if (!data.isLoggedIn()) {
             throw new Error('User not logged in!');
         }
