@@ -22,7 +22,5 @@ export default {
         if (amount > 1000000 || amount < 1) {
             throw new Error('Amount cannot be greater than 1.000.000 and less than 1!');
         }
-        
->>>>>>> f26cb6e7b047a1f22502549126aea0b44d04bede
     }
 }
