@@ -1,6 +1,6 @@
 export default {
     info: 'proxy <source account> <destination email>',
-    description: 'You can....',
+    description: 'You can introduce a proxy for your account',
     execute: (data) => ([accountNumber, emailDestination]) => {
         if (!accountNumber || !emailDestination) {
             console.log('Account number or destination email is not provided!');

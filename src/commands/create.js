@@ -1,6 +1,6 @@
 export default {
     info: 'create <account type>',
-    description: 'You can....',
+    description: 'You can create personal or saving account',
     execute: (data) => ([type]) => {
         if (!data.isLoggedIn()) {
             console.log('User not logged in!');
@@ -13,13 +13,13 @@ export default {
             return;
         }
 
-        if (type === 'personal' || type === 'saving') {     
-            data.loggedInUser.accounts.push({ 
-                accountNumber: generateAccountNumber(), 
-                amount: 0, 
-                type, 
-                histories: [], 
-                proxies: [] 
+        if (type === 'personal' || type === 'saving') {
+            data.loggedInUser.accounts.push({
+                accountNumber: generateAccountNumber(),
+                amount: 0,
+                type,
+                histories: [],
+                proxies: []
             });
             data.saveData();
         } else {

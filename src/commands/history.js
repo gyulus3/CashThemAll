@@ -1,7 +1,7 @@
 export default {
     info: 'history <account>',
-    description: 'You can....',
-    execute: (data) => ([accountNumber]) => { 
+    description: 'You can check your account transaction history',
+    execute: (data) => ([accountNumber]) => {
         if (!data.isLoggedIn()) {
             console.log('User not logged in!');
             return;

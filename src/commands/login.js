@@ -1,7 +1,7 @@
 export default {
     info: 'login <email> <password>',
-    description: 'You can....',
-    execute: (data) => ([email, password]) => { 
+    description: 'You can login',
+    execute: (data) => ([email, password]) => {
         if(!email || !password) {
             console.log('Email or password is not provided!');
             return;

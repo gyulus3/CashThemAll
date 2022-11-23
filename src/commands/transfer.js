@@ -1,7 +1,7 @@
 export default {
     info: 'transfer <source account> <destination account> <amount>',
-    description: 'You can....',
-    execute: (data) => ([accountOrigin, accountDestionation, amount]) => { 
+    description: 'You can transfer money to another accounts',
+    execute: (data) => ([accountOrigin, accountDestionation, amount]) => {
         if (!data.isLoggedIn()) {
             console.log('User not logged in!');
             return;
@@ -23,7 +23,7 @@ export default {
             return;
         }
 
-        
+
 
     }
 }

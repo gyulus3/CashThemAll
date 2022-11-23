@@ -1,7 +1,7 @@
 export default {
     info: 'withdraw <account> <amount>',
-    description: 'You can....',
-    execute: (data) => ([accountNumber, amount]) => { 
+    description: 'You can withdraw the money from the account',
+    execute: (data) => ([accountNumber, amount]) => {
         if (!data.isLoggedIn()) {
             console.log('User not logged in!');
             return;
@@ -33,7 +33,7 @@ export default {
         }
 
         account.amount -= parseInt(amount);
-        account.histories.push({ 
+        account.histories.push({
             accountNumber,
             accountOrigin: accountNumber,
             amountBefore: account.amount + parseInt(amount),
