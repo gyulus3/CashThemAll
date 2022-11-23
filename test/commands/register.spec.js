@@ -7,26 +7,73 @@ const mockUser = {
     username: 'user01'
 };
 
-test('Should add the new registered user, when the data array was empty.', () => {
+test('Should throw error when email is not provided.', () => {
     const { data } = setup();
-
-    register.execute(data)(mockUser.email, mockUser.password, mockUser.username);
-
-    expect(data.users[0]).toStrictEqual({ ...mockUser, accounts: [] });
-    expect(data.users.length).toBe(1);
-    expect(data.saveData).toHaveBeenCalledTimes(1);
+    expect(() => register.execute(data)([]))
+            .toThrow('Email is not provided!');
 });
 
-test('Should not add the new registered user, when the data array already contained the email.', () => {
-    const defaultUsers = [
-        { email: mockUser.email, password: '1111', username: 'aaaa', accounts: [] }
-    ];
-    const { data } = setup(defaultUsers);
+test('Should throw error when password is not provided.', () => {
+    const { data } = setup();
+    expect(() => register.execute(data)(['user@user.com'])).
+            toThrow('Password is not provided!');
+});
 
-    register.execute(data)(mockUser.email, mockUser.password, mockUser.username);
+test('Should throw error when name is not provided.', () => {
+    const { data } = setup();
+    expect(() => register.execute(data)(['user@user.com', '123456789123'])).
+            toThrow('Name is not provided!');
+});
 
-    expect(data.users.length).toBe(1);
-    expect(data.saveData).toHaveBeenCalledTimes(0);
+test('Should throw error when email is not valid.', () => {
+    const { data } = setup();
+    expect(() => register.execute(data)(['us', '123456789123', 'myname'])).
+            toThrow('Email must be a combination of 5-20 alpahumeric characters!');
+});
+
+test('Should throw error when password is not a number.', () => {
+    const { data } = setup();
+    expect(() => register.execute(data)(['user@user.com', 'asdasd', 'myname'])).
+            toThrow('Password must be a combination of 12 digits!');
+});
+
+test('Should throw error when password is less digits than 12.', () => {
+    const { data } = setup();
+    expect(() => register.execute(data)(['user@user.com', '11111', 'myname'])).
+            toThrow('Password must be a combination of 12 digits!');
+});
+
+test('Should throw error when password is more digits than 12.', () => {
+    const { data } = setup();
+    expect(() => register.execute(data)(['user@user.com', '11111111111111111111', 'myname'])).
+            toThrow('Password must be a combination of 12 digits!');
+});
+
+test('Should throw error when name is less chars than 5.', () => {
+    const { data } = setup();
+    expect(() => register.execute(data)(['user@user.com', '111111111111', 'my'])).
+            toThrow('Name must be a combination of 5-20 alpahumeric characters!');
+});
+
+test('Should throw error when name is more chars than 20.', () => {
+    const { data } = setup();
+    expect(() => register.execute(data)(['user@user.com', '111111111111', 'mynamemynamenymenaasd'])).
+            toThrow('Name must be a combination of 5-20 alpahumeric characters!');
+});
+
+test('Should throw error when email is already in use.', () => {
+    const { data } = setup([mockUser]);
+    expect(() => register.execute(data)(['user@user.com', '111111111111', 'myname'])).
+            toThrow('User with this email already exists!');
+});
+
+test('Should register user, when every attributes are correct.', () => {
+    const { data } = setup([mockUser]);
+    expect(() => register.execute(data)(['user1@user.com', '111111111111', 'myname'])).
+            not.toThrow();
+    expect(data.users).toContainEqual({ email: 'user1@user.com', password: '111111111111', username: 'myname', accounts: [] });
+    expect(data.users.length).toBe(2);
+    expect(data.saveData).toHaveBeenCalledTimes(1);
 });
 
 const setup = (defaultUsers = []) => {
