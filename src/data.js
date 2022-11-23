@@ -36,8 +36,6 @@ const processAccountData = (accountDataArray) => {
     }
 };
 
-const ifStringLengthGreaterThanZero = (stringElement) => stringElement.length > 0;
-
 const saveData = async () => {
     let outputData = '';
     users.forEach(({ email, password, username }) => {
@@ -45,7 +43,7 @@ const saveData = async () => {
     });
     users.forEach(({ accounts, email }) => {
         accounts.forEach(({ accountNumber, amount, type, histories, proxies }) => {
-            outputData += '#HISTORY\n';
+            outputData += '#ACCOUNT\n';
             outputData += `${ accountNumber } ${ amount } ${ email } ${ type }\n`;
             proxies.forEach((proxy, index) => {
                 outputData += index > 0? ` ${ proxy }` : `${ proxy }`;
@@ -65,15 +63,15 @@ const saveData = async () => {
 
 const loadData = async () => {    
     const rawInputData = await fs.readFile(`./${ dataFileName }`, 'binary');
-    const inputData = rawInputData.split('\n').filter(ifStringLengthGreaterThanZero);
+    const inputData = rawInputData.split('\n');
 
     let proccessedData = [];
-    while(inputData.indexOf('#HISTORY') !== -1) {
-        proccessedData.push(inputData.splice(0, inputData.indexOf('#HISTORY') + 1));
+    while(inputData.indexOf('#ACCOUNT') !== -1) {
+        proccessedData.push(inputData.splice(0, inputData.indexOf('#ACCOUNT') + 1));
     }
     proccessedData.push(inputData);
     const [userData, ...accountData] = proccessedData.map(array => { 
-        return array.indexOf('#HISTORY') !== -1 ? array.slice(0, -1) : array; 
+        return array.indexOf('#ACCOUNT') !== -1 ? array.slice(0, -1) : array; 
     });
 
     userData.forEach(processUserData);
@@ -86,4 +84,8 @@ const loginUser = (userToLogin) => {
     loggedInUser = userToLogin;
 }
 
-export { users, loggedInUser, loginUser, saveData, loadData };
+const isLoggedIn = () => {
+    return loggedInUser !== null;
+}
+
+export { users, loggedInUser, isLoggedIn, loginUser, saveData, loadData };

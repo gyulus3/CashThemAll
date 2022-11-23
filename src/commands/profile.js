@@ -2,7 +2,7 @@ export default {
     info: 'profile',
     description: 'You can....',
     execute: (data) => () => {
-        if (data.loggedInUser === null) {
+        if (!data.isLoggedIn()) {
             console.log('User not logged in!');
             return;
         }

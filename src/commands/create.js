@@ -2,11 +2,18 @@ export default {
     info: 'create <account type>',
     description: 'You can....',
     execute: (data) => ([type]) => {
-        if (data.loggedInUser === null) {
+        if (!data.isLoggedIn()) {
             console.log('User not logged in!');
             return;
         }
-        if (type === 'personal' || type === 'saving') {        
+
+        const countPersonalAccounts = data.loggedInUser.accounts.filter(a => a.type === 'personal').length;
+        if (type === 'personal' && countPersonalAccounts >= 5) {
+            console.log('Cannot create more personal accounts!');
+            return;
+        }
+
+        if (type === 'personal' || type === 'saving') {     
             data.loggedInUser.accounts.push({ 
                 accountNumber: generateAccountNumber(), 
                 amount: 0, 

@@ -1,9 +1,8 @@
 import { waitUserInput } from './user-input.js';
 import { loadData } from './data.js';
 import { getCommand, isCommandExit } from './commands/index.js';
-import strings from './resources/strings.js';
 
-console.log(strings.welcome);
+console.log('Greetings! This is cash app!');
 
 await loadData();
 

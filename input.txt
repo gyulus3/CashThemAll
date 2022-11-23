@@ -1,19 +1,18 @@
-user pass name
-user1 pass1 name2
-asd asd undefined
-#HISTORY
-accnum0 600 user personal
-user1
-accnum0 200 50 150 accnum2
-accnum0 150 500 100 accnum2
-#HISTORY
-accnum1 100 user personal
-user1
-accnum1 200 50 150 accnum2
-accnum1 150 500 100 accnum2
-#HISTORY
-cq868842226193 0 user saving
+gy.levi0@gmail.com 1234 levi
+amir@amir.com 12345 amir
+#ACCOUNT
+lk749912611545 100 gy.levi0@gmail.com personal
+amir@amir.com asd@asd.com
+lk749912611545 0 100 100
+#ACCOUNT
+db518550851040 100 gy.levi0@gmail.com saving
 
-#HISTORY
-fu079941903378 1000 user saving
+db518550851040 0 100 100
+#ACCOUNT
+fk214978616108 950 gy.levi0@gmail.com personal
 
+fk214978616108 0 100 100
+fk214978616108 100 1000 1100
+fk214978616108 950150 150 950
+fk214978616108 950 100 850
+fk214978616108 850 100 950

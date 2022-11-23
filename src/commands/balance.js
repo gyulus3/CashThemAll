@@ -3,10 +3,10 @@ export default {
     description: 'You can....',
     execute: (data) => ([accountNumber]) => { 
         if(!accountNumber) {
-            console.log('Account number is invalid!');
+            console.log('Account number is not provided!');
             return;
         }
-        if (data.loggedInUser === null) {
+        if (!data.isLoggedIn()) {
             console.log('User not logged in!');
             return;
         }

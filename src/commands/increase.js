@@ -2,6 +2,9 @@ export default {
     info: 'increase <account>',
     description: 'You can....',
     execute: (data) => (args) => { 
-        console.log('not implemented')
+        if (!data.isLoggedIn()) {
+            console.log('User not logged in!');
+            return;
+        }
     }
 }

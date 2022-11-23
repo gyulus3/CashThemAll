@@ -6,16 +6,29 @@ export default {
             console.log('Account number or amount are not valid!');
             return;
         }
-        if (data.loggedInUser === null) {
+        if (!data.isLoggedIn()) {
             console.log('User not logged in!');
             return;
         }
-        const currentAccount = data.loggedInUser.accounts.find(a => a.accountNumber === accountNumber);
-        if (currentAccount) {
-            currentAccount.amount += parseInt(amount);
-            data.saveData();
-        } else {
+
+        const account = data.loggedInUser.accounts.find(a => a.accountNumber === accountNumber);
+        if (!account) {
             console.log('Account not found!');
+            return;
         }
+        if (account.type !== 'personal') {
+            console.log('You can add only for your personal account!');
+            return;
+        }
+
+        currentAccount.amount += parseInt(amount);
+        currentAccount.histories.push({ 
+            accountNumber,
+            accountOrigin: accountNumber,
+            amountBefore: currentAccount.amount - parseInt(amount),
+            amountTransfered: amount,
+            amountAfter: currentAccount.amount
+        });
+        data.saveData();
     }
 }

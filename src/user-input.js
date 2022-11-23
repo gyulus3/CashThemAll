@@ -1,5 +1,4 @@
 import { createInterface } from 'readline';
-import strings from './resources/strings.js';
 
 const ask = (question) => {
     const readline = createInterface({
@@ -16,7 +15,7 @@ const ask = (question) => {
 }
 
 export const waitUserInput = async () => {
-    const answer = await ask(strings.menuText);
+    const answer = await ask('Type the command here (type help for all the commands, exit for close app): ');
     const [command, ...rest] = answer
         .split(' ')
         .map(component => component.toLowerCase());

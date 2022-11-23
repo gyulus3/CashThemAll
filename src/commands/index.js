@@ -1,5 +1,3 @@
-import strings from '../resources/strings.js';
-
 import register from './register.js';
 import profile from './profile.js';
 import login from './login.js';
@@ -19,7 +17,7 @@ const DEFINED_COMMANDS = {
 }
 
 const printHelp = () => {
-    console.log(strings.menuHelp);
+    console.log('Available commands:');
     Object.keys(DEFINED_COMMANDS).forEach((key, index) => {
         console.log(`\t${ index + 1 }. ${ DEFINED_COMMANDS[key].info }`);
         console.log(`\t   - ${ DEFINED_COMMANDS[key].description }`);
@@ -36,7 +34,7 @@ export const getCommand = (command) => {
         return printHelp;
     }
     if (isCommandInvalid(command)) {
-        return () => console.log(strings.invalidCommand);
+        return () => console.log('Command is invalid!');
     }
     return DEFINED_COMMANDS[command].execute(data);
 }
