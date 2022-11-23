@@ -16,7 +16,7 @@ export default {
         if (!isAccountNumberValid(accountNumber)) {
             throw new Error('Account number must be a combination of 2 letters and 12 digits!');
         }
-        if (isNaN(amount) || amount < 0 || amount > 9999999999) {
+        if (isNaN(amount) || amount < 1 || amount > 9999999999) {
             throw new Error('Amount must be between 1 and 9.999.999.999!');
         }
 
