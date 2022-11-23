@@ -3,8 +3,7 @@ export default {
     description: 'You can....',
     execute: (data) => () => {
         if (!data.isLoggedIn()) {
-            console.log('User not logged in!');
-            return;
+            throw new Error('User is not logged in!');
         }
         printUserDetail(data.loggedInUser)
     }

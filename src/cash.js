@@ -10,7 +10,12 @@ let [command, ...restArgs] = await waitUserInput();
 
 while (!isCommandExit(command)) {
   const executeCommand = getCommand(command);
-  executeCommand(restArgs);
+
+  try {
+    executeCommand(restArgs);
+  } catch({ message }) {
+    console.log(message);
+  }
 
   ([command, ...restArgs] = await waitUserInput());
 }
