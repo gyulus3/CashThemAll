@@ -1,6 +1,6 @@
 export default {
     info: 'profile',
-    description: 'You can....',
+    description: 'You can display the user profile',
     execute: (data) => () => {
         if (!data.isLoggedIn()) {
             throw new Error('User is not logged in!');
@@ -13,7 +13,7 @@ const printUserDetail = ({ email, username, accounts }) => {
     console.log(`email: ${ email }`);
     console.log(`name: ${ username }`);
     console.log('accounts:');
-    accounts.forEach(printAccount); 
+    accounts.forEach(printAccount);
 }
 
 const printAccount = ({ accountNumber, amount, type, proxies }) => {

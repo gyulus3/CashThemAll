@@ -2,8 +2,8 @@ import isAccountNumberValid from '../util/accountNumberValidifier.js';
 
 export default {
     info: 'balance <account>',
-    description: 'You can....',
-    execute: (data) => ([accountNumber]) => { 
+    description: 'You can check your account balance',
+    execute: (data) => ([accountNumber]) => {
         if(!accountNumber) {
             throw new Error('Account number is not provided!');
         }

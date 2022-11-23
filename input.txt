@@ -1,1 +1,36 @@
+<<<<<<< HEAD
+gy.levi0@gmail.com 1234 levi
+amir@amir.com 12345 amir
+email pass name
+amirtest1@email.com 123456 amirtest1
+#ACCOUNT
+lk749912611545 100 gy.levi0@gmail.com personal
+amir@amir.com asd@asd.com
+lk749912611545 0 100 100
+#ACCOUNT
+db518550851040 100 gy.levi0@gmail.com saving
+
+db518550851040 0 100 100
+#ACCOUNT
+fk214978616108 950 gy.levi0@gmail.com personal
+
+fk214978616108 0 100 100
+fk214978616108 100 1000 1100
+fk214978616108 950150 150 950
+fk214978616108 950 100 850
+fk214978616108 850 100 950
+#ACCOUNT
+bx498096432505 2000 email personal
+
+ NaN NaN NaN
+bx498096432505 0 1000 1000
+bx498096432505 1000 1000 2000
+ NaN NaN NaN
+#ACCOUNT
+vx509935984813 900 amirtest1@email.com personal
+amirtest1@email.com
+vx509935984813 0 1200 1200
+vx509935984813 1200 300 900
+=======
 12345 123456789012 12345
+>>>>>>> f26cb6e7b047a1f22502549126aea0b44d04bede

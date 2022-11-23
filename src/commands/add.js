@@ -2,8 +2,17 @@ import isAccountNumberValid from '../util/accountNumberValidifier.js';
 
 export default {
     info: 'add <account> <amount>',
+<<<<<<< HEAD
+    description: 'You can add money to your account',
+    execute: (data) => ([accountNumber, amount]) => {
+        if(!accountNumber || !amount || isNaN(amount)) {
+            console.log('Account number or amount are not valid!');
+            return;
+        }
+=======
     description: 'You can....',
     execute: (data) => ([accountNumber, amount]) => { 
+>>>>>>> f26cb6e7b047a1f22502549126aea0b44d04bede
         if (!data.isLoggedIn()) {
             throw new Error('User not logged in!');
         }
@@ -29,7 +38,7 @@ export default {
         }
 
         account.amount += parseInt(amount);
-        account.histories.push({ 
+        account.histories.push({
             accountNumber,
             accountOrigin: accountNumber,
             amountBefore: account.amount - parseInt(amount),

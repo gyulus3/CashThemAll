@@ -2,7 +2,7 @@ import isAccountNumberValid from '../util/accountNumberValidifier.js';
 
 export default {
     info: 'proxy <source account> <destination email>',
-    description: 'You can....',
+    description: 'You can introduce a proxy for your account',
     execute: (data) => ([accountNumber, emailDestination]) => {
         if (!data.isLoggedIn()) {
             throw new Error('User is not logged in!');

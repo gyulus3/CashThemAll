@@ -2,8 +2,8 @@ import isAccountNumberValid from '../util/accountNumberValidifier.js';
 
 export default {
     info: 'history <account>',
-    description: 'You can....',
-    execute: (data) => ([accountNumber]) => { 
+    description: 'You can check your account transaction history',
+    execute: (data) => ([accountNumber]) => {
         if (!data.isLoggedIn()) {
             throw new Error('User not logged in!');
         }

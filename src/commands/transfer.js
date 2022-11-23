@@ -2,8 +2,8 @@ import isAccountNumberValid from '../util/accountNumberValidifier.js';
 
 export default {
     info: 'transfer <source account> <destination account> <amount>',
-    description: 'You can....',
-    execute: (data) => ([accountOrigin, accountDestionation, amount]) => { 
+    description: 'You can transfer money to another accounts',
+    execute: (data) => ([accountOrigin, accountDestionation, amount]) => {
         if (!data.isLoggedIn()) {
             throw new Error('User is not logged in!');
         }
@@ -22,8 +22,7 @@ export default {
         if (amount > 1000000 || amount < 1) {
             throw new Error('Amount cannot be greater than 1.000.000 and less than 1!');
         }
-
-        // NOT ENOUGH MONEY
         
+>>>>>>> f26cb6e7b047a1f22502549126aea0b44d04bede
     }
 }
