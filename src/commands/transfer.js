@@ -31,9 +31,9 @@ export default {
             throw new Error('Not enough amount on account!');
         }
 
-        const destination = data.users.find(u => u.accounts.some(a => a.accountNumber === accountDestionation))
-                                        .accounts.find(a => a.accountNumber === accountDestionation);
-        if (!destination) {
+        const destionationUser = data.users.find(u => u.accounts.some(a => a.accountNumber === accountDestionation));
+        const destination = destionationUser?.accounts.find(a => a.accountNumber === accountDestionation);
+        if (!destination || !destionationUser) {
             throw new Error('Destination is not found!');
         }
         destination.histories.push({
