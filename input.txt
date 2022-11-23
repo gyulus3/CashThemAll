@@ -1,5 +1,6 @@
 gy.levi0@gmail.com 1234 levi
 amir@amir.com 12345 amir
+email pass name
 #ACCOUNT
 lk749912611545 100 gy.levi0@gmail.com personal
 amir@amir.com asd@asd.com
@@ -16,3 +17,9 @@ fk214978616108 100 1000 1100
 fk214978616108 950150 150 950
 fk214978616108 950 100 850
 fk214978616108 850 100 950
+#ACCOUNT
+bx498096432505 2000 email personal
+
+ NaN NaN NaN
+bx498096432505 0 1000 1000
+bx498096432505 1000 1000 2000

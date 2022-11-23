@@ -21,13 +21,13 @@ export default {
             return;
         }
 
-        currentAccount.amount += parseInt(amount);
-        currentAccount.histories.push({ 
+        account.amount += parseInt(amount);
+        account.histories.push({ 
             accountNumber,
             accountOrigin: accountNumber,
-            amountBefore: currentAccount.amount - parseInt(amount),
+            amountBefore: account.amount - parseInt(amount),
             amountTransfered: amount,
-            amountAfter: currentAccount.amount
+            amountAfter: account.amount
         });
         data.saveData();
     }
