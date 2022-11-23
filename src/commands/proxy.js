@@ -8,7 +8,7 @@ export default {
             throw new Error('User is not logged in!');
         }
         if (!accountNumber) {
-            throw new Error('Password is not provided!');
+            throw new Error('Account number is not provided!');
         }
         if (!emailDestination) {
             throw new Error('Email is not provided!');
