@@ -1,4 +1,4 @@
-import command from '../../src/commands/add.js';
+import command from '../../src/commands/withdraw.js';
 import { jest } from '@jest/globals'
 
 const mockUser = {
@@ -6,8 +6,8 @@ const mockUser = {
     password: '12345',
     username: 'user01',
     accounts: [
-        { accountNumber: 'aa111222333444', type: 'saving', amount: 0, histories: [] },
-        { accountNumber: 'bb111222333444', type: 'personal', amount: 0, histories: [] }
+        { accountNumber: 'aa111222333444', type: 'saving', amount: 100, histories: [] },
+        { accountNumber: 'bb111222333444', type: 'personal', amount: 100, histories: [] }
     ]
 };
 
@@ -62,18 +62,25 @@ test('Should throw error when account is not found.', () => {
 test('Should throw error when account is not a personal account.', () => {
     const { data } = setup(mockUser);
     expect(() => command.execute(data)(['aa111222333444', 100]))
-            .toThrow('You can add only for your personal account!');
+            .toThrow('You can withdraw only from your personal account!');
 });
 
-test('Should increase amount and add history, when everything is correct.', () => {
+test('Should throw error, when account has not enough amount.', () => {
     const { data } = setup(mockUser);
-    expect(() => command.execute(data)(['bb111222333444', 100]))
+    expect(() => command.execute(data)(['bb111222333444', 200]))
+            .toThrow('Not enough amount on account!');
+});
+
+test('Should decrease amount, when account has enought amunt.', () => {
+    const { data } = setup(mockUser);
+    expect(() => command.execute(data)(['bb111222333444', 50]))
             .not.toThrow();
 
-    expect(data.loggedInUser.accounts[1].amount).toBe(100);
+    expect(data.loggedInUser.accounts[1].amount).toBe(50);
     expect(data.loggedInUser.accounts[1].histories.length).toBe(1);
     expect(data.saveData).toHaveBeenCalledTimes(1);
 });
+
 
 const setup = (loggedInUser = null) => {
     const data = {

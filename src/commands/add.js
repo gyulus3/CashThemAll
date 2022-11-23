@@ -5,7 +5,7 @@ export default {
     description: 'You can add money to your account',
     execute: (data) => ([accountNumber, amount]) => {
         if (!data.isLoggedIn()) {
-            throw new Error('User not logged in!');
+            throw new Error('User is not logged in!');
         }
         if(!accountNumber) {
             throw new Error('Account number is not provided!');

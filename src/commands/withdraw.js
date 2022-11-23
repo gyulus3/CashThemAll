@@ -1,3 +1,5 @@
+import isAccountNumberValid from '../util/accountNumberValidifier.js';
+
 export default {
     info: 'withdraw <account> <amount>',
     description: 'You can withdraw the money from the account',
@@ -20,7 +22,7 @@ export default {
 
         const account = data.loggedInUser.accounts.find(a => a.accountNumber === accountNumber);
         if (!account) {
-            throw new Error('Account does not exsit!');
+            throw new Error('Account is not found!');
         }
 
         if (account.type !== 'personal') {
