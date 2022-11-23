@@ -1,10 +1,9 @@
 export default {
     info: 'increase <account>',
     description: 'You can....',
-    execute: (data) => (args) => { 
+    execute: (data) => () => { 
         if (!data.isLoggedIn()) {
-            console.log('User not logged in!');
-            return;
+            throw new Error('User not logged in!');
         }
     }
 }
