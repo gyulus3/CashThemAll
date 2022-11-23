@@ -49,7 +49,7 @@ const saveData = async () => {
                 outputData += index > 0? ` ${ proxy }` : `${ proxy }`;
             });
             outputData += '\n';
-            histories.forEach(({ accountOrigin, amountBefore, amountTransfered, amountAfter, accountDestionation }) => {
+            histories.forEach(({ accountOrigin, amountBefore, amountTransfered, amountAfter, accountDestionation }, j) => {
                 outputData += `${ accountOrigin } ${ amountBefore } ${ amountTransfered } ${ amountAfter }`;
                 if (accountDestionation) {
                     outputData += ` ${ accountDestionation }`;
@@ -58,6 +58,9 @@ const saveData = async () => {
             });
         });
     });
+    if (outputData.endsWith('\n')) {
+        outputData = outputData.slice(0, -2);
+    }
     await fs.writeFile(`./${ dataFileName }`, outputData);
 };
 
