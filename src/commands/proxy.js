@@ -16,13 +16,13 @@ export default {
         if (!isAccountNumberValid(accountNumber)) {
             throw new Error('Account number must be a combination of 2 letters and 12 digits!');
         }
-        if (email.length > 20 || email.length < 5) {
+        if (emailDestination.length > 20 || emailDestination.length < 5) {
             throw new Error('Email must be a combination of 5-20 alpahumeric characters!');
         }
 
         const account = data.loggedInUser.accounts.find(a => a.accountNumber === accountNumber);
         if (!account) {
-            throw new Error('Account does not exist!');
+            throw new Error('Account is not found!');
         }
 
         if (account.type !== 'personal') {
@@ -31,7 +31,7 @@ export default {
 
         let proxiesCount = 0;
         data.loggedInUser.accounts.forEach(a => proxiesCount += a.proxies.length);
-        if (proxiesCount > 10) {
+        if (proxiesCount >= 10) {
             throw new Error('You have the maximum proxies!');
         }
 
