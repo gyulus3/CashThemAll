@@ -9,7 +9,9 @@ const users = [];
 
 const processUserData = (element) => {
     const [email, password, username] = element.split(' ');
-    users.push({ email, password, username, accounts: [] });
+    if (email && password && username) {
+        users.push({ email, password, username, accounts: [] });
+    }
 }
 
 const processAccountData = (accountDataArray) => {
