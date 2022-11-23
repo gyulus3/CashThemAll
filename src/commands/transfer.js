@@ -13,14 +13,46 @@ export default {
         if (!accountDestionation) {
             throw new Error('Account destination is not provided!');
         }
-        if (!isAccountNumberValid(accountOrigin) || isAccountNumberValid(accountDestionation)) {
+        if (!isAccountNumberValid(accountOrigin) || !isAccountNumberValid(accountDestionation)) {
             throw new Error('Account number must be a combination of 2 letters and 12 digits!');
         }
         if (!amount || isNaN(amount)) {
             throw new Error('Amount is not provided!');
         }
-        if (amount > 1000000 || amount < 1) {
+        if (parseInt(amount) > 1000000 || parseInt(amount) < 1) {
             throw new Error('Amount cannot be greater than 1.000.000 and less than 1!');
         }
+
+        const account = data.loggedInUser.accounts.find(a => a.accountNumber === accountOrigin);
+        if (!account) {
+            throw new Error('Account is not found!');
+        }
+        if (account.amount < parseInt(amount)) {
+            throw new Error('Not enough amount on account!');
+        }
+
+        const destination = data.users.find(u => u.accounts.some(a => a.accountNumber === accountDestionation))
+                                        .accounts.find(a => a.accountNumber === accountDestionation);
+        if (!destination) {
+            throw new Error('Destination is not found!');
+        }
+        destination.histories.push({
+            accountOrigin,
+            accountDestionation,
+            amountBefore: destination.amount,
+            amountTransfered: amount,
+            amountAfter: destination.amount + parseInt(amount)
+        });
+        account.histories.push({
+            accountOrigin,
+            accountDestionation,
+            amountBefore: account.amount,
+            amountTransfered: amount,
+            amountAfter: destination.amount - parseInt(amount)
+        });
+        destination.amount += parseInt(amount);
+        account.amount -= parseInt(amount);
+
+        data.saveData();
     }
 }
