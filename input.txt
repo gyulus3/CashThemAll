@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 gy.levi0@gmail.com 1234 levi
 amir@amir.com 12345 amir
 email pass name
@@ -30,3 +31,6 @@ vx509935984813 900 amirtest1@email.com personal
 amirtest1@email.com
 vx509935984813 0 1200 1200
 vx509935984813 1200 300 900
+=======
+12345 123456789012 12345
+>>>>>>> f26cb6e7b047a1f22502549126aea0b44d04bede

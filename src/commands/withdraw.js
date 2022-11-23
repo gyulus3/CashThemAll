@@ -3,33 +3,32 @@ export default {
     description: 'You can withdraw the money from the account',
     execute: (data) => ([accountNumber, amount]) => {
         if (!data.isLoggedIn()) {
-            console.log('User not logged in!');
-            return;
+            throw new Error('User is not logged in!');
         }
-
         if(!accountNumber) {
-            console.log('Account number is not provided!');
-            return;
+            throw new Error('Account number is not provided!');
         }
-        if(!amount || isNaN(amount)) {
-            console.log('Amount is not provided!');
-            return;
+        if(!amount){
+            throw new Error('Amount is not provided!');
+        }
+        if (!isAccountNumberValid(accountNumber)) {
+            throw new Error('Account number must be a combination of 2 letters and 12 digits!');
+        }
+        if (isNaN(amount) || amount < 0 || amount > 9999999999) {
+            throw new Error('Amount must be between 1 and 9.999.999.999!');
         }
 
         const account = data.loggedInUser.accounts.find(a => a.accountNumber === accountNumber);
         if (!account) {
-            console.log('Account does not exsit!');
-            return;
+            throw new Error('Account does not exsit!');
         }
 
         if (account.type !== 'personal') {
-            console.log('You can withdraw only from your personal account!');
-            return;
+            throw new Error('You can withdraw only from your personal account!');
         }
 
         if (account.amount < amount) {
-            console.log('Not enough amount on account!');
-            return;
+            throw new Error('Not enough amount on account!');
         }
 
         account.amount -= parseInt(amount);

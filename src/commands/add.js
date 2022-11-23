@@ -1,24 +1,40 @@
+import isAccountNumberValid from '../util/accountNumberValidifier.js';
+
 export default {
     info: 'add <account> <amount>',
+<<<<<<< HEAD
     description: 'You can add money to your account',
     execute: (data) => ([accountNumber, amount]) => {
         if(!accountNumber || !amount || isNaN(amount)) {
             console.log('Account number or amount are not valid!');
             return;
         }
+=======
+    description: 'You can....',
+    execute: (data) => ([accountNumber, amount]) => { 
+>>>>>>> f26cb6e7b047a1f22502549126aea0b44d04bede
         if (!data.isLoggedIn()) {
-            console.log('User not logged in!');
-            return;
+            throw new Error('User not logged in!');
+        }
+        if(!accountNumber) {
+            throw new Error('Account number is not provided!');
+        }
+        if(!amount){
+            throw new Error('Amount is not provided!');
+        }
+        if (!isAccountNumberValid(accountNumber)) {
+            throw new Error('Account number must be a combination of 2 letters and 12 digits!');
+        }
+        if (isNaN(amount) || amount < 0 || amount > 9999999999) {
+            throw new Error('Amount must be between 1 and 9.999.999.999!');
         }
 
         const account = data.loggedInUser.accounts.find(a => a.accountNumber === accountNumber);
         if (!account) {
-            console.log('Account not found!');
-            return;
+            throw new Error('Account is not found!');
         }
         if (account.type !== 'personal') {
-            console.log('You can add only for your personal account!');
-            return;
+            throw new Error('You can add only for your personal account!');
         }
 
         account.amount += parseInt(amount);

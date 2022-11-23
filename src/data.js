@@ -1,5 +1,4 @@
 import fs from 'fs/promises';
-import util from 'util';
 
 const DEFAULT_INPUT_FILE = 'input.txt';
 const dataFileName = process.argv[2] || DEFAULT_INPUT_FILE;
@@ -9,7 +8,9 @@ const users = [];
 
 const processUserData = (element) => {
     const [email, password, username] = element.split(' ');
-    users.push({ email, password, username, accounts: [] });
+    if (email && password && username) {
+        users.push({ email, password, username, accounts: [] });
+    }
 }
 
 const processAccountData = (accountDataArray) => {
@@ -49,7 +50,7 @@ const saveData = async () => {
                 outputData += index > 0? ` ${ proxy }` : `${ proxy }`;
             });
             outputData += '\n';
-            histories.forEach(({ accountOrigin, amountBefore, amountTransfered, amountAfter, accountDestionation }) => {
+            histories.forEach(({ accountOrigin, amountBefore, amountTransfered, amountAfter, accountDestionation }, j) => {
                 outputData += `${ accountOrigin } ${ amountBefore } ${ amountTransfered } ${ amountAfter }`;
                 if (accountDestionation) {
                     outputData += ` ${ accountDestionation }`;
@@ -58,11 +59,14 @@ const saveData = async () => {
             });
         });
     });
-    await fs.writeFile(`./${ dataFileName }`, outputData);
+    if (outputData.endsWith('\n') && users.some(u => u.accounts.length > 0)) {
+        outputData = outputData.slice(0, -2);
+    }
+    await fs.writeFile(`./${ dataFileName }`, outputData, { encoding: 'utf8' });
 };
 
 const loadData = async () => {    
-    const rawInputData = await fs.readFile(`./${ dataFileName }`, 'binary');
+    const rawInputData = await fs.readFile(`./${ dataFileName }`, { encoding: 'utf8' });
     const inputData = rawInputData.split('\n');
 
     let proccessedData = [];
@@ -76,8 +80,6 @@ const loadData = async () => {
 
     userData.forEach(processUserData);
     accountData.forEach(processAccountData);
-
-    console.log(util.inspect(users, false, null, true))
 }
 
 const loginUser = (userToLogin) => {

@@ -1,20 +1,22 @@
+import isAccountNumberValid from '../util/accountNumberValidifier.js';
+
 export default {
     info: 'history <account>',
     description: 'You can check your account transaction history',
     execute: (data) => ([accountNumber]) => {
         if (!data.isLoggedIn()) {
-            console.log('User not logged in!');
-            return;
+            throw new Error('User not logged in!');
         }
         if (!accountNumber) {
-            console.log('Account number is not provided!');
-            return;
+            throw new Error('Account number is not provided!');
+        }
+        if (!isAccountNumberValid(accountNumber)) {
+            throw new Error('Account number must be a combination of 2 letters and 12 digits!');
         }
 
         const account = data.loggedInUser.accounts.find(a => a.accountNumber === accountNumber);
         if (!account) {
-            console.log('Account does not exist!');
-            return;
+            throw new Error('Account does not exist!');
         }
 
         console.log(`${ accountNumber } history:`)
